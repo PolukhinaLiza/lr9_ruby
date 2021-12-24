@@ -1,0 +1,81 @@
+<script>
+const url = location.protocol + '//' + location.host + 
+'/calc.json?value=' 
+ function send_query() { 
+  console.log('hello') 
+  const params = encodeURIComponent(document.getElementById('input').value) 
+  const xhr = new XMLHttpRequest() 
+  xhr.open('GET', url + params) 
+  xhr.onload = () => { 
+   console.log(xhr.response) 
+   show_result(JSON.parse(xhr.response)) 
+  } 
+  xhr.send() 
+ } 
+ function show_result(data) { 
+  const resultNone = document.getElementById("resultNone")  
+  const result = document.getElementById("result")  
+  console.log(data) 
+  if (data.type == 'String') { 
+   result.hidden = true 
+   resultNone.hidden = false 
+   resultNone.innerHTML = `<h5>Результат</h5> <br> ${data.value} ` 
+  } 
+  else { 
+   result.hidden = false 
+   resultNone.hidden = true 
+   data.value.forEach((elem, index) => { 
+    const newRow = document.createElement('div') 
+    newRow.className = "row tr" 
+    newColResult = document.createElement('div') 
+    const newColNumber = document.createElement('div') 
+    newColNumber.className = "col-3 border" 
+    newColResult.className = "col-3 border" 
+    newColNumber.innerHTML = (index + 1).toString() 
+    newColResult.innerHTML = `${elem}` 
+    newRow.append(newColNumber, newColResult) 
+    result.append(newRow) 
+   }) 
+  } 
+ } 
+</script>
+<br>
+<p>Добро Пожаловать!</p>
+<p>Введите число, чтобы посчитать его квадратный корень с помощью метода Ньютона – Рафсона</p>
+
+
+<div class="mt-3" id="form"> 
+ <%= form_with :method => 'get', local: false do |form| %> 
+ <div class="mb-3 row"> 
+  <div class="col-2"> 
+   <%= form.label :Значение %> 
+  </div> 
+ 
+  <div class="col-10"> 
+   <%= form.text_field :value, required: true, id: 'input', 
+class: 'form-control' %> 
+  </div> 
+ </div> 
+ <%= form.submit "Выполнить", onclick: 'send_query()', class: 'btn btn-
+primary' %> 
+ <% end %> 
+</div> 
+ 
+<div id="result" name="result" class="col-7 p-3 mt-3" hidden> 
+ <div class="row"> 
+  <h5> Результаты </h5> 
+  <p>Последний элемент таблицы будет являться квадратным корнем введенного числа!</p>
+  <p>Все остальные элементы являются промежуточными вычислениями по заданному методу</p>
+ </div> 
+ 
+ <div class="row tab"> 
+  <div class="col border"> 
+   Номер элемента  
+  </div> 
+  <div class="col border"> 
+   Значение  
+  </div> 
+ </div> 
+</div> 
+ 
+<div id="resultNone" name="result" class="alert alert-danger mt-3" hidden> </div>

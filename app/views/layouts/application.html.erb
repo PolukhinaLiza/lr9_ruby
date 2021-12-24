@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lr9</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <style> 
+        .tab{
+           display: table;
+           width: 203px;
+           border-collapse: collapse;
+        }
+        .tr
+        { 
+            display: table-row;
+        } 
+        .border{
+           display: table-cell;
+           text-align: center;
+           border: 1px solid #ccc;
+           vertical-align: middle;
+           width: 100px;
+        }
+        .btn{
+          width:100px;
+          margin: 10px;
+        }
+    </style> 
+  <body>
+    <%= yield %>
+  </body>
+</html>
